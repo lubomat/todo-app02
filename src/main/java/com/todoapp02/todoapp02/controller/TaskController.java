@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ class TaskController {
     }
 
     @PutMapping("/tasks/{id}")
-    ResponseEntity<?> updateTask(@RequestBody Task toUpdate) {
+    ResponseEntity<?> updateTask(@RequestBody @Valid Task toUpdate) {
         repository.save(toUpdate);
         return ResponseEntity.noContent().build();
     }

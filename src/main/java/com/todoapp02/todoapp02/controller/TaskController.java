@@ -5,11 +5,14 @@ import com.todoapp02.todoapp02.model.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -32,7 +35,22 @@ class TaskController {
     ResponseEntity<List<Task>> readAllTasks(Pageable page) {
         logger.info("Custom pageable");
         return ResponseEntity.ok(repository.findAll(page).getContent());
+        // return new ResponseEntity<>(repository.findAll(), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/tasks/{id}")
+    ResponseEntity<Task> readTask(@PathVariable int id) {
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/tasks")
+    ResponseEntity<Task> createTask(@RequestBody @Valid Task toCreate) {
+        Task result = repository.save(toCreate);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
 
     @PutMapping("/tasks/{id}")
     ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) {
@@ -43,7 +61,5 @@ class TaskController {
         repository.save(toUpdate);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

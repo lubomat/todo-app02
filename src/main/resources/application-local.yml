@@ -4,3 +4,6 @@ spring:
     path: '/console'
   datasource:
       url: 'jdbc:h2:file:C:/Users/matlu/IdeaProjects/todo-app02/todo-db02'
+  jpa:
+    hibernate:
+      ddl-auto: validate

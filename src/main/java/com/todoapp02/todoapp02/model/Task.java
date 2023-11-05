@@ -54,13 +54,13 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public void updateFrom(final Task source) {
-        description = source.description;
+    public void updateFrom(final Task source) {   // metoda ktora chowa pola klasy w klasie i nie udostepnia ich na zewnatrz
+        description = source.description;         // lepiej udostepniac metody
         done = source.done;
         deadline = source.deadline;
     }
 
-    @PrePersist
+    @PrePersist                                   // operacja wykona sie przed zapisem do DB
     void prePersist() {
         createdOn = LocalDateTime.now();
     }

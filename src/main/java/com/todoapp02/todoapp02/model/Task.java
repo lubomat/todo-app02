@@ -6,15 +6,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-public class Task extends BaseAuditableEntity {
+public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // zmieniam na AUTO i nie dziala ?
     private int id;
     @NotBlank(message = "Task's description must be not null")
 
     private String description;
     private boolean done;
     private LocalDateTime deadline;
+    @Embedded                      // osadzamy w ten sposob w tym miejscu klase @Embedable
+    private Audit audit = new Audit();
 
 
     public Task() {

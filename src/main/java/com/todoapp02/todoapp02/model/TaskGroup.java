@@ -3,6 +3,8 @@ package com.todoapp02.todoapp02.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "task_groups")
@@ -13,10 +15,12 @@ public class TaskGroup {
     @NotBlank(message = "Task's description must be not null")
     private String description;
     private boolean done;
-    @Embedded                      // osadzamy w ten sposob w tym miejscu klase @Embedable
-    private Audit audit = new Audit();
 
-    TaskGroup() {
+   // @OneToMany(fetch = FetchType.LAZY)   // leniwie dociągamy wtedy kiedy jest to potrzebne
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")  // usuwając/zapisując grupe usuwamy/zapisujemy wszystkie jej taski
+    private Set<Task> tasks;
+
+    public TaskGroup() {
     }
 
     public int getId() {
@@ -43,4 +47,11 @@ public class TaskGroup {
         this.done = done;
     }
 
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

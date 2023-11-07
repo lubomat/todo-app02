@@ -57,10 +57,20 @@ public class Task {
         this.deadline = deadline;
     }
 
+
+    public TaskGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(TaskGroup group) {
+        this.group = group;
+    }
+
     public void updateFrom(final Task source) {   // metoda ktora chowa pola klasy w klasie i nie udostepnia ich na zewnatrz
         description = source.description;         // lepiej udostepniac metody
         done = source.done;
         deadline = source.deadline;
+        group = source.group;
     }
 
 }

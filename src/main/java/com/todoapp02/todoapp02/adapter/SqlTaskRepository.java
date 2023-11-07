@@ -1,5 +1,7 @@
-package com.todoapp02.todoapp02.model;
+package com.todoapp02.todoapp02.adapter;
 
+import com.todoapp02.todoapp02.model.Task;
+import com.todoapp02.todoapp02.model.TaskRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

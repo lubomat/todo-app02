@@ -5,24 +5,18 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "task_groups")
+public class TaskGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // zmieniam na AUTO i nie dziala ?
     private int id;
     @NotBlank(message = "Task's description must be not null")
-
     private String description;
     private boolean done;
-    private LocalDateTime deadline;
-    @Embedded                               // osadzamy w ten sposob w tym miejscu klase @Embedable
+    @Embedded                      // osadzamy w ten sposob w tym miejscu klase @Embedable
     private Audit audit = new Audit();
-    @ManyToOne                              // wiele taskow moze trafic do jednej grupy
-    @JoinColumn(name = "task_group_id")     // po tej kolumnie dołączamy dane z group
-    private TaskGroup group;
 
-
-    public Task() {
+    TaskGroup() {
     }
 
     public int getId() {
@@ -47,20 +41,6 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
-    }
-
-    public LocalDateTime getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
-
-    public void updateFrom(final Task source) {   // metoda ktora chowa pola klasy w klasie i nie udostepnia ich na zewnatrz
-        description = source.description;         // lepiej udostepniac metody
-        done = source.done;
-        deadline = source.deadline;
     }
 
 }

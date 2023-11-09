@@ -19,6 +19,9 @@ public class TaskGroup {
    // @OneToMany(fetch = FetchType.LAZY)   // leniwie dociągamy wtedy kiedy jest to potrzebne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")  // usuwając/zapisując grupe usuwamy/zapisujemy wszystkie jej taski
     private Set<Task> tasks;
+    @ManyToOne                              // wiele taskow moze trafic do jednej grupy
+    @JoinColumn(name = "project_id")     // po tej kolumnie dołączamy dane z group
+    private Project project;
 
     public TaskGroup() {
     }
@@ -53,5 +56,13 @@ public class TaskGroup {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    Project getProject() {
+        return project;
+    }
+
+    void setProject(Project project) {
+        this.project = project;
     }
 }

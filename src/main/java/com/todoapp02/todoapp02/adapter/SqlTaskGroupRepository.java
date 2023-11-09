@@ -13,4 +13,7 @@ interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<Task
     @Override
     @Query("from TaskGroup g join fetch g.tasks")  // N+1 odrazu w jednym zapytaniu prosimy zeby wszystkie taski zwiazane z tymi grupami byly pobrane
     List<TaskGroup> findAll();
+
+    @Override
+    boolean existsByDoneIsFalseAndProject_Id(Integer projectId);
 }

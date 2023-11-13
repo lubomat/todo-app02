@@ -22,7 +22,12 @@ public class Task {
     private TaskGroup group;
 
 
-    public Task() {
+    Task() {
+    }
+
+    public Task(String description, LocalDateTime deadline) {
+        this.description = description;
+        this.deadline = deadline;
     }
 
     public int getId() {

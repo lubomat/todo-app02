@@ -15,8 +15,7 @@ public class TaskGroup {
     @NotBlank(message = "Task's description must be not null")
     private String description;
     private boolean done;
-
-   // @OneToMany(fetch = FetchType.LAZY)   // leniwie dociągamy wtedy kiedy jest to potrzebne
+    // @OneToMany(fetch = FetchType.LAZY)   // leniwie dociągamy wtedy kiedy jest to potrzebne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")  // usuwając/zapisując grupe usuwamy/zapisujemy wszystkie jej taski
     private Set<Task> tasks;
     @ManyToOne                              // wiele taskow moze trafic do jednej grupy

@@ -2,12 +2,16 @@ package com.todoapp02.todoapp02.logic;
 
 import com.todoapp02.todoapp02.TaskConfigurationProperties;
 import com.todoapp02.todoapp02.model.ProjectRepository;
+import com.todoapp02.todoapp02.model.TaskGroup;
 import com.todoapp02.todoapp02.model.TaskGroupRepository;
+import com.todoapp02.todoapp02.model.projection.GroupReadModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
@@ -84,7 +88,7 @@ class ProjectServiceTest {
         //and
         TaskConfigurationProperties mockConfig = configurationReturning(true);
         // system under test
-        var toTest = new ProjectService(mockRepository, null, mockConfig);
+        var toTest = new ProjectService(mockRepository, mockGroupRepository, mockConfig);
 
         //when
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(),0));
@@ -95,6 +99,32 @@ class ProjectServiceTest {
                 .hasMessageContaining("id not found");
 
     }
+    @Test
+    @DisplayName("should create a new group from project")
+    void createGroup_configurationOk_existingProject_createAndSavesGroup() {
+        //given
+        var today = LocalDate.now().atStartOfDay();
+        //and
+        var mockRepository = mock(ProjectRepository.class);
+        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        // and
+        InMemoryGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
+        int countBeforeCall = inMemoryGroupRepo.count();
+
+        // and
+        TaskConfigurationProperties mockConfig = configurationReturning(true);
+        // system under test
+        var toTest = new ProjectService(mockRepository, inMemoryGroupRepo, mockConfig);
+        // when
+        GroupReadModel result = toTest.createGroup(today, 1);
+
+        //then
+//        assertThat(result)
+        assertThat(countBeforeCall + 1)
+                .isNotEqualTo(inMemoryGroupRepo.count());
+    }
+
+
 
     private TaskGroupRepository groupRepositoryReturning(boolean value) {
         var mockGroupRepository = mock(TaskGroupRepository.class);
@@ -110,5 +140,47 @@ class ProjectServiceTest {
         return mockConfig;
     }
 
+    private InMemoryGroupRepository inMemoryGroupRepository() {
+        return new InMemoryGroupRepository();
+    }
 
+    private static class InMemoryGroupRepository implements TaskGroupRepository {
+            private int index = 0;
+            private Map<Integer, TaskGroup> map = new HashMap<>();
+
+            public int count() {
+                return map.values().size();         //zwraca rozmiar kolekcji
+
+            }
+
+            @Override
+            public List<TaskGroup> findAll() {
+            return new ArrayList<>(map.values());
+        }
+
+            @Override
+            public Optional<TaskGroup> findById(Integer id) {
+            return Optional.ofNullable(map.get(id));
+        }
+
+            @Override
+            public TaskGroup save(TaskGroup entity) {
+            if(entity.getId() ==0) {
+                try {
+                    TaskGroup.class.getDeclaredField("id").set(entity, ++index);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            map.put(entity.getId(), entity);
+            return null;
+        }
+
+            @Override
+            public boolean existsByDoneIsFalseAndProject_Id(Integer projectId) {
+            return map.values().stream()
+                    .filter(group -> !group.isDone())
+                    .anyMatch(group -> group.getProject() != null && group.getProject().getId() == projectId);
+        }
+    }
 }

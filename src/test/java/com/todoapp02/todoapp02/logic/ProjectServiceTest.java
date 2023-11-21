@@ -89,7 +89,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    @DisplayName("shoult create a new group from project")
+    @DisplayName("should create a new group from project")
     void createGroup_configurationOk_existingProject_createAndSavesGroup() {
         // given
         var today = LocalDate.now().atStartOfDay();

@@ -4,6 +4,7 @@ import com.todoapp02.todoapp02.model.Task;
 import com.todoapp02.todoapp02.model.TaskRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,7 @@ import java.util.*;
 @Configuration
 public class TestConfiguration {
     @Bean
+    @Profile("integration")              //{,"!prod"}      // zadziała tylko na profilu integration
     TaskRepository testRepo() {                       // jestesmy niezalezni od DB, Repo symuluje DB
         return new TaskRepository() {
             private Map<Integer, Task> tasks = new HashMap<>();

@@ -4,15 +4,28 @@ import com.todoapp02.todoapp02.model.Task;
 import com.todoapp02.todoapp02.model.TaskRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.sql.DataSource;
 import java.util.*;
 
 @Configuration
 public class TestConfiguration {
     @Bean
+    @Primary
+    @Profile("!integration")                             //prawidłowo
+    DataSource e2etestDataSource() {
+        var result = new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "sa", "");
+        result.setDriverClassName("org.h2.Driver");
+        return result;
+    }
+
+    @Bean
+    @Primary             //TCE2ETest po tym zadziała !!! nie zaśmiecać DB, uzywać testowej DB!
     @Profile("integration")              //{,"!prod"}      // zadziała tylko na profilu integration
     TaskRepository testRepo() {                       // jestesmy niezalezni od DB, Repo symuluje DB
         return new TaskRepository() {

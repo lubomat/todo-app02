@@ -1,6 +1,7 @@
 package com.todoapp02.todoapp02.model.projection;
 
 import com.todoapp02.todoapp02.model.Task;
+import com.todoapp02.todoapp02.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -20,11 +21,11 @@ public class GroupTaskWriteModel {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(final LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public Task toTask() {
-        return new Task(description, deadline);
+    public Task toTask(final TaskGroup group) {
+        return new Task(description, deadline, group);
     }
 }

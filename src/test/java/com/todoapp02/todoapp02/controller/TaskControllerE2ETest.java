@@ -27,7 +27,7 @@ class TaskControllerE2ETest {
     @Test
     void httpGet_returnsAllTasks() {
         //given
-        int initial = repo.findAll().size();                           // przez migracje
+        int initial = repo.findAll().size();                           // + przez migracje
         repo.save(new Task("foo", LocalDateTime.now()));
         repo.save(new Task("bar", LocalDateTime.now()));
 

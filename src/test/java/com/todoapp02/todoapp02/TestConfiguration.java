@@ -19,7 +19,7 @@ import java.util.*;
 public class TestConfiguration {
     @Bean
     @Primary
-    @Profile("!integration")                             //prawidłowo
+    @Profile("!integration")
     DataSource e2etestDataSource() {
         var result = new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "sa", "");
         result.setDriverClassName("org.h2.Driver");

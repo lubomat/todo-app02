@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -52,8 +55,19 @@ class TaskController {
                 repository.findByDone(state));
     }
 
-   /* @GetMapping(value = "/search/done", produces = MediaType.TEXT_HTML_VALUE)
+    /*
+
+    @GetMapping("/test")
+    void oldFashionedWay(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println(req.getParameter("foo"));
+        resp.getWriter().println("test old-fashioned way");
+    }
+
+
+
+    @GetMapping(value = "/search/done", produces = MediaType.TEXT_HTML_VALUE)
     String bar() {return "";}
+
     **/
 
 

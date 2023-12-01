@@ -65,16 +65,16 @@ public class Task {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
 
-    public TaskGroup getGroup() {
+    TaskGroup getGroup() {
         return group;
     }
 
-    public void setGroup(TaskGroup group) {
+    void setGroup(TaskGroup group) {
         this.group = group;
     }
 

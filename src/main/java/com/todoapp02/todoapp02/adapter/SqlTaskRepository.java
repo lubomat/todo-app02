@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 interface SqlTaskRepository extends TaskRepository, JpaRepository<Task, Integer> {
 
@@ -18,4 +20,8 @@ interface SqlTaskRepository extends TaskRepository, JpaRepository<Task, Integer>
     boolean existsByDoneIsFalseAndGroup_Id(Integer groupId);   // pozwala po nie zamknietym
                                                                // zadaniu z grupa o zadanym
                                                                // id odfiltrowac
+
+
+    @Override
+    List<Task> findAllByGroup_Id(Integer groupId);
 }

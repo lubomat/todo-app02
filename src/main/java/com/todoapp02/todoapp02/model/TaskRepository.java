@@ -21,4 +21,5 @@ public interface TaskRepository {
 
     Task save(Task entity);
 
+    List<Task> findAllByGroup_Id(Integer groupId);
 }

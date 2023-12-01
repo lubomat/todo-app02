@@ -15,7 +15,7 @@ public class InfoController {
     private DataSourceProperties dataSource;
     private TaskConfigurationProperties myProp;
 
-    public InfoController(DataSourceProperties dataSource, TaskConfigurationProperties myProp) {
+    InfoController(DataSourceProperties dataSource, TaskConfigurationProperties myProp) {
         this.dataSource = dataSource;
         this.myProp = myProp;
     }

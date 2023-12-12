@@ -13,7 +13,7 @@ class ProjectController {
     String showProjects(Model model) {
         var projectToEdit = new ProjectWriteModel();
         projectToEdit.setDescription("test");
-        model.addAttribute("project", projectToEdit);
+        model.addAttribute("project", new ProjectWriteModel());
         return "projects";
     }
 }
